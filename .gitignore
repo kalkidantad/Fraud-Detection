@@ -4,6 +4,7 @@ data/processed/*.csv
 data/processed/*.parquet
 *.pkl
 *.joblib
+models/
 
 # Python
 __pycache__/
