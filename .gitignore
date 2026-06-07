@@ -1,0 +1,28 @@
+# Data files (do not commit raw/processed datasets)
+data/raw/*.csv
+data/processed/*.csv
+data/processed/*.parquet
+*.pkl
+*.joblib
+
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.ipynb_checkpoints/
+.pytest_cache/
+.mypy_cache/
+
+# Environments
+.venv/
+venv/
+env/
+.env
+
+# OS / editor
+.DS_Store
+.vscode/
+.idea/
+
+# Keep directory placeholders
+!**/.gitkeep
