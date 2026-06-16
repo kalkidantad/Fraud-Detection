@@ -3,7 +3,20 @@ from __future__ import annotations
 
 import pandas as pd
 from sklearn.compose import ColumnTransformer
+from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import OneHotEncoder, StandardScaler
+
+from . import config
+
+
+def stratified_split(df: pd.DataFrame, target: str, test_size: float = 0.2):
+    """Stratified train/test split returning (X_train, X_test, y_train, y_test)."""
+    drop_cols = [c for c in (target,) if c in df.columns]
+    X = df.drop(columns=drop_cols)
+    y = df[target]
+    return train_test_split(
+        X, y, test_size=test_size, stratify=y, random_state=config.RANDOM_STATE
+    )
 
 
 def split_feature_types(df: pd.DataFrame, target: str):

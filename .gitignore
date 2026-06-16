@@ -1,9 +1,11 @@
 # Data files (do not commit raw/processed datasets)
+data/*.csv
 data/raw/*.csv
 data/processed/*.csv
 data/processed/*.parquet
 *.pkl
 *.joblib
+models/
 
 # Python
 __pycache__/
