@@ -35,15 +35,36 @@ For **both** datasets (`Fraud_Data` and `creditcard`) we train and compare:
 
 ## 3. Results
 
-Run the notebook to populate the exact figures; the comparison table is printed
-by `evaluation.metrics_table(...)` and curves/confusion matrices are saved to
-`reports/figures/` (`pr_ecommerce.png`, `pr_creditcard.png`,
-`confusion_*.png`).
+The numbers below come from running `notebooks/02_model_building.ipynb` on the
+processed datasets (e-commerce: 151,112 rows, 9.36% fraud; credit card: 283,726
+rows after de-duplication, ~0.17% fraud) with an 80/20 stratified split. Curves
+and confusion matrices are saved to `reports/figures/` (`pr_ecommerce.png`,
+`pr_creditcard.png`, `confusion_*.png`).
 
-**Expected pattern:** XGBoost outperforms Logistic Regression on AUC-PR and F1
-for both datasets, while Logistic Regression provides an interpretable baseline.
-On `creditcard` (≈0.17% fraud) AUC-PR is the only metric that meaningfully
-separates the models.
+### 3.1 E-commerce (`Fraud_Data`)
+
+| Model               | AUC-PR | ROC-AUC |    F1 | Precision | Recall |
+| ------------------- | -----: | ------: | ----: | --------: | -----: |
+| Logistic Regression | 0.6651 |  0.8375 | 0.6014 |    0.5194 | 0.7141 |
+| **XGBoost**         | **0.7087** | **0.8404** | **0.6174** | **0.5670** | 0.6777 |
+
+### 3.2 Credit card (`creditcard`)
+
+| Model               | AUC-PR | ROC-AUC |    F1 | Precision | Recall |
+| ------------------- | -----: | ------: | ----: | --------: | -----: |
+| Logistic Regression | 0.6750 |  0.9626 | 0.1000 |    0.0530 | 0.8737 |
+| **XGBoost**         | **0.8287** | **0.9773** | **0.8671** | **0.9615** | 0.7895 |
+
+**Observations:**
+
+- XGBoost beats Logistic Regression on AUC-PR and F1 on **both** datasets.
+- On `creditcard` the gap is dramatic: Logistic Regression catches most fraud
+  (87% recall) but at terrible precision (5.3%), giving an F1 of just 0.10 — it
+  floods the analyst with false positives. XGBoost reaches 0.96 precision at
+  0.79 recall (F1 = 0.87), the only model that is operationally usable on the
+  extreme ~0.17% imbalance.
+- ROC-AUC looks high for every model on `creditcard`, which is exactly why we
+  lead with AUC-PR: it is the metric that actually separates the two models.
 
 ## 4. Model selection
 
